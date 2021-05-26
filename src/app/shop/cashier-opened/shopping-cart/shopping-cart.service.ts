@@ -25,6 +25,7 @@ import {CustomerDiscount} from '../../shared/services/models/customer-discount.m
 import {DataProtectionActService} from '@shared/components/data-protection-act/data-protection-act.service';
 import {RgpdType} from '@shared/models/RgpdType';
 import {tick} from '@angular/core/testing';
+import {AuthService} from '@core/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class ShoppingCartService {
   creditSale: CreditSale;
   user: User;
 
-  constructor(private dialog: MatDialog, private articleService: SharedArticleService,
+  constructor(private auth: AuthService, private dialog: MatDialog, private articleService: SharedArticleService,
               private offerService: SharedOfferService, private httpService: HttpService,
               private budgetService: BudgetService, private sharedCreditLineService: SharedCreditLineService,
               private sharedCreditSaleService: SharedCreditSaleService, private snackBar: MatSnackBar,
@@ -115,18 +116,10 @@ export class ShoppingCartService {
     console.log(ShoppingCartService.ticket);
     const obj: any = {};
     const ticket = ShoppingCartService.ticket;
-    obj.salesperson = ticket.note.substring(ticket.note.lastIndexOf(' ') + 1, ticket.note.length);
+    const userName: string = this.auth.getName();
+    obj.salesperson = userName;
     obj.salesDate = this.SalesGetDate();
-    obj.ticketBarcode = ticket.id;
-    obj.articleBarcode = [];
-    obj.amount = 0;
-    obj.total = 0;
-    ticket.shoppingList.map((item) => {
-      obj.total += item.retailPrice;
-      obj.amount += item.amount;
-      obj.articleBarcode.push(item.barcode);
-    });
-    console.log(obj);
+    obj.ticketId = ticket.id;
     return this.httpService.post(EndPoints.SALE_PEOPLE, obj);
   }
 

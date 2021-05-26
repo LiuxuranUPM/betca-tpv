@@ -170,6 +170,7 @@ export class CheckOutDialogComponent {
 
   pay(): any {
     const returned = this.returnedAmount();
+    const userName: string = this.authService.getName();
     const cash = this.ticketCreation.cash;
     let voucher = 0;
     this.ticketCreation.cash = this.format(this.ticketCreation.cash);
@@ -195,7 +196,7 @@ export class CheckOutDialogComponent {
       this.ticketCreation.note += ' No Pay.';
     }
 
-    this.ticketCreation.note += ' Salespeople is ' + this.salespeople;
+    this.ticketCreation.note += ' Salespeople is ' + userName;
     if (returned > 0) {
       this.ticketCreation.note += ' Return: ' + this.round(returned) + '.';
     }
