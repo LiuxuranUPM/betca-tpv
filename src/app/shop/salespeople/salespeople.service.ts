@@ -28,11 +28,12 @@ export class SalesPeopleService {
         map(response => {
           const delArr = [];
           response.map((item, index) => {
-            item.ticketBarcode = item.ticketBarcode.substring(item.ticketBarcode.length - 12);
+            item.ticketId = item.ticketId.substring(item.ticketId.length - 12);
             if (index !== 0) {
               if (item.salesDate === response[index - 1].salesDate) {
-                item.total += response[index - 1].total;
-                item.ticketBarcode = item.ticketBarcode + ',' + response[index - 1].ticketBarcode;
+                item.total += (Number(response[index - 1].total) + 1);
+                item.total = item.total.toFixed(2) - 1;
+                item.ticketId = item.ticketId + ',' + response[index - 1].ticketId;
                 item.amount += response[index - 1].amount;
                 item.articleBarcode.push(...response[index - 1].articleBarcode);
                 delArr.push(index - 1);
@@ -59,7 +60,8 @@ export class SalesPeopleService {
           response.map((item, index) => {
             item.localDate = item.localDate.substring(0, item.localDate.length - 3);
             if (data[item.salesperson]) {
-              data[item.salesperson].total += item.total;
+              data[item.salesperson].total += (Number(item.total) + 1);
+              data[item.salesperson].total = data[item.salesperson].total.toFixed(2) - 1;
             } else {
               data[item.salesperson] = item;
             }

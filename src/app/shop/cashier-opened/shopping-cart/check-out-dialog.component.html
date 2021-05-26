@@ -6,12 +6,6 @@
         <mat-icon color="warn">report_problem</mat-icon> Uncommit articles & phone not registered</span>
   <!-- <app-user-quick-crud (found)="updateUser($event)"></app-user-quick-crud> -->
   <mat-form-field>
-    <input [(ngModel)]="salespeople" matInput placeholder="Salespeople" type="string"/>
-    <button mat-button mat-icon-button matSuffix>
-      <mat-icon color="warn">Person</mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field>
     <input #mobile [disabled]="managedMobile()" matInput placeholder="Mobile" type="number"/>
     <button (click)="searchUser(mobile.value)" *ngIf="!managedMobile()" mat-button mat-icon-button matSuffix>
       <mat-icon color="warn">search</mat-icon>
