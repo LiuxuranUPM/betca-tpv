@@ -199,16 +199,9 @@ export class ShoppingCartService {
     return this.httpService.pdf().get(EndPoints.BUDGETS + '/' + BudgetId + ShoppingCartService.RECEIPT);
   }
 
-  readBudget(id: string): Observable<Shopping> {
+  readBudget(id: string): Observable<BudgetCreation> {
     return this.budgetService
-      .read(id)
-      .pipe(
-        map(budgets => {
-            const shopping = new Shopping(budgets.barcode, budgets.description, budgets.retailPrice);
-            return shopping;
-          }
-        )
-      );
+      .read(id);
   }
 
   addDiscount(mobile: string): Observable<CustomerDiscount[]> {

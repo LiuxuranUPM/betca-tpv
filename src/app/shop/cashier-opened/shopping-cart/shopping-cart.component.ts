@@ -10,6 +10,7 @@ import {NumberDialogComponent} from '@shared/dialogs/number-dialog.component';
 import {ArticleFamilyViewComponent} from './article-family-view/article-family-view.component';
 import {BudgetDialogComponent} from '../../budgets/budget-dialog.component';
 
+
 @Component({
   selector: 'app-shopping-cart',
   styleUrls: ['shopping-cart.component.css'],
@@ -54,6 +55,7 @@ export class ShoppingCartComponent implements OnInit {
       .read(barcode)
       .subscribe(newShopping => {
         this.shoppingCart.push(newShopping);
+        console.log(newShopping);
         this.synchronizeShoppingCart();
       });
     this.elementRef.nativeElement.focus();
@@ -167,7 +169,15 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService
       .readBudget(id)
       .subscribe(newShopping => {
-        this.shoppingCart.push(newShopping);
+        console.log(newShopping.shoppingList);
+        for (let i = 0; i < newShopping.shoppingList.length; i++) {
+          this.shoppingCart.push(newShopping.shoppingList[i]);
+          this.shoppingCart.forEach(total=>{
+            total.total=Shopping.round2decimal(total.retailPrice * total.amount * (1 - total.discount / 100));
+            total.state = ShoppingState.COMMITTED;
+          });
+        }
+        console.log(newShopping);
         this.synchronizeShoppingCart();
       });
     this.elementRef.nativeElement.focus();

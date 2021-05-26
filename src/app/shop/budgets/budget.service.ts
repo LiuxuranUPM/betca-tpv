@@ -1,9 +1,9 @@
 import {HttpService} from '@core/http.service';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {EndPoints} from '@shared/end-points';
 import {map} from 'rxjs/operators';
-import {Shopping} from '../shared/services/models/shopping.model';
+import {BudgetCreation} from "./budget-creation.model";
 
 
 
@@ -18,7 +18,7 @@ export class BudgetService {
   constructor(private httpService: HttpService) {
   }
 
-  read(id: string): Observable<Shopping> {
+  read(id: string): Observable<BudgetCreation> {
     return this.httpService
       .get(EndPoints.BUDGETS  + '/' + id);
   }
